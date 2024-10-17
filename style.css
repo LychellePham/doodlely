@@ -26,7 +26,7 @@ body{
     padding: 10px;
     max-width: 1350px;
     background: #E7CCCC;
-    height: 430px;
+    
     
     
 }
@@ -37,15 +37,109 @@ section{
     border-radius: 7px;
 }
 
-.drawing-board{
-    flex: 1;
-}
 
 .tools-board{
-
     width: 210px;
     padding: 15px 22px 0;
     background: #EDE8DC;
     border-radius: 7px;
     
+}
+
+.tools-board .row{
+    margin-bottom: 10px;
+}
+
+.row .options{
+    list-style: none;
+    margin: 10px 0 0 5px;
+}
+
+.row .options .option{
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option:is(:hover, .active) img{
+    filter: saturate(3000%) hue-rotate(115deg);
+}
+
+.option :where(span, label){
+    color: #786e72;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.option:is(:hover, .active) :where(span, label){
+    color: #c36f95;
+}
+
+.title{
+    font-weight: 500;
+}
+
+#size-slider{
+    accent-color: #777;
+    cursor: pointer;
+}
+
+.row button{
+    cursor: pointer;
+}
+
+#fill-color:checked ~ label{
+    color: #c36f95;
+}
+
+
+.colors .options{
+    display: flex;
+    justify-content: space-evenly;
+}
+.colors .option{
+    height: 20px;
+    width: 20px;
+    background: #c36f95;
+    border-radius: 50%;
+    margin-top: 3px;
+    position: relative;
+}
+
+.colors .option:nth-child(1){
+    background: black;
+}
+
+.colors .option:nth-child(2){
+    background: #FF8A8A;
+}
+
+.colors .option:nth-child(3){
+    background: #667BC6;
+}
+
+.colors .option:nth-child(4){
+    background: #97BE5A;
+}
+
+.colors .option:nth-child(5){
+    background: #F5DD61;
+}
+
+.colors .option:hover::before{
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    height: 12px;
+    width: 12px;
+    background: inherit;
+    border-radius: inherit;
+    border: 2px solid #fff;
+    transform: translate(-50%, -50%);
+}
+
+.drawing-board{
+    flex: 1;
 }
