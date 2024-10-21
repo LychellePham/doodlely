@@ -140,6 +140,37 @@ section{
     transform: translate(-50%, -50%);
 }
 
+.colors .options:first-child:hover:before{
+    border-color: #ccc
+}
+
+.option #colour-picker{
+    opacity: 0;
+    cursor: pointer;
+}
+
+.buttons button{
+    width: 100%;
+    background-color: #fff;
+    color: red;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.buttons button:hover{
+    background-color: #ff84b9;
+
+}
+
+
+.buttons .clear-canvas{
+    transition: all 0.3s ease;
+}
+
+.buttons .save-img{
+    transition: all 0.3s ease;
+}
 .drawing-board{
     flex: 1;
 }
