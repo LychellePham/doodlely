@@ -1,6 +1,8 @@
 const canvas = document.querySelector("canvas"),
 ctx = canvas.getContext("2d");
 
+
+
 let isDrawing = false;
 
 window.addEventListener("load", () => {
@@ -10,6 +12,11 @@ window.addEventListener("load", () => {
 
 const startDraw = () => {
     isDrawing = true;
+    ctx.beginPath();
+}
+
+const stopDraw = () => {
+    isDrawing = false;
 }
 
 const drawing = (e) => {
@@ -18,5 +25,14 @@ const drawing = (e) => {
     ctx.stroke(); // drawing/filling line with colour
 }
 
-canvas.addEventListener("mousedown", startDraw)
+//const clearCanvasButton = document.getElementsByClassName("clear-canvas");
+//clearCanvasButton.addEventListener("click", pressClearCanvas);
+
+/*function pressClearCanvas(){
+    //const contex = canvas.getContext("2d");
+    contex.clearRect(0, 0, canvas.width, canvas.height);
+}*/
+
+canvas.addEventListener("mousedown", startDraw);
+canvas.addEventListener("mouseup", stopDraw);
 canvas.addEventListener("mousemove", drawing);
