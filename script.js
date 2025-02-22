@@ -6,7 +6,7 @@ const ctx = canvas.getContext("2d");
 let prevMouseX, prevMouseY, snapshot;
 let isDrawing = false;
 let selectedTool = "brush";
-let burshWidth = 5;
+let brushWidth = 5;
 
 window.addEventListener("load", () => {
     canvas.width = canvas.offsetWidth;
@@ -22,7 +22,7 @@ const startDraw = (e) => {
     prevMouseX = e.offsetX;
     prevMouseY = e.offsetY;
     ctx.beginPath();
-    ctx.lineWidth = burshWidth;
+    ctx.lineWidth = brushWidth;
     snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height)
     
 }
