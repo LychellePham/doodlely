@@ -1,5 +1,7 @@
 const canvas = document.querySelector("canvas");
 const toolButtons = document.querySelectorAll(".tool");
+const fillColor = document.querySelector("#fill-color");
+const sizeSlider = document.querySelector("#size-slider");
 const ctx = canvas.getContext("2d");
 
 
@@ -14,7 +16,30 @@ window.addEventListener("load", () => {
 });
 
 const drawRectangle = (e) => {
-    ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+
+    if (!fillColor.checked){
+       return ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+    }
+    ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+}
+
+const drawCircle = (e) => {
+    ctx.beginPath();
+    //let radius = ((e.offsetX - prevMouseX));
+    let radius = Math.sqrt(Math.pow((prevMouseX - e.offsetX), 2) + Math.pow((prevMouseY - e.offsetY), 2));
+    ctx.arc(e.offsetX, e.offsetY, radius, 0, 2 * Math.PI);
+    
+    fillColor.checked ? ctx.fill() : ctx.stroke();
+}
+
+const drawTriangle = (e) => {
+    ctx.beginPath();
+    ctx.moveTo(prevMouseX, prevMouseY);
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.lineTo(prevMouseX * 2 - e.offsetX, e.offsetY);
+    //ctx.lineTo(prevMouseX, prevMouseY);
+    ctx.closePath();
+    fillColor.checked ? ctx.fill() : ctx.stroke();
 }
 
 const startDraw = (e) => {
@@ -23,6 +48,7 @@ const startDraw = (e) => {
     prevMouseY = e.offsetY;
     ctx.beginPath();
     ctx.lineWidth = brushWidth;
+    // copy canvas data and passing snapshot value which avoids dragging the image
     snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height)
     
 }
@@ -42,6 +68,10 @@ const drawing = (e) => {
         ctx.stroke(); // drawing/filling line with colour
     }else if(selectedTool === "rectangle"){
         drawRectangle(e);
+    }else if(selectedTool === "circle"){
+        drawCircle(e);
+    }else if(selectedTool === "triangle"){
+        drawTriangle(e);
     }
 }
 
@@ -53,6 +83,8 @@ toolButtons.forEach(button => {
         console.log(button.id);
     })
 })
+
+sizeSlider.addEventListener("change", () => brushWidth = sizeSlider.value);
 
 //const clearCanvasButton = document.getElementsByClassName("clear-canvas");
 //clearCanvasButton.addEventListener("click", pressClearCanvas);
