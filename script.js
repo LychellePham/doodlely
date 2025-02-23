@@ -2,6 +2,9 @@ const canvas = document.querySelector("canvas");
 const toolButtons = document.querySelectorAll(".tool");
 const fillColor = document.querySelector("#fill-color");
 const sizeSlider = document.querySelector("#size-slider");
+const colorButtons = document.querySelectorAll(".colors .option");
+const colorPicker = document.querySelector("#colour-picker");
+const clearCanvas = document.querySelector(".clear-canvas");
 const ctx = canvas.getContext("2d");
 
 
@@ -9,6 +12,7 @@ let prevMouseX, prevMouseY, snapshot;
 let isDrawing = false;
 let selectedTool = "brush";
 let brushWidth = 5;
+let selectedColor = "#000";
 
 window.addEventListener("load", () => {
     canvas.width = canvas.offsetWidth;
@@ -48,6 +52,9 @@ const startDraw = (e) => {
     prevMouseY = e.offsetY;
     ctx.beginPath();
     ctx.lineWidth = brushWidth;
+    ctx.strokeStyle = selectedColor;
+    ctx.fillStyle = selectedColor;
+
     // copy canvas data and passing snapshot value which avoids dragging the image
     snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height)
     
@@ -63,7 +70,8 @@ const drawing = (e) => {
     ctx.putImageData(snapshot, 0, 0);
 
 
-    if(selectedTool ===  "brush"){
+    if(selectedTool ===  "brush"  || selectedTool === "eraser"){
+        ctx.strokeStyle = selectedTool === "eraser" ? "#EDE8DC" : selectedColor;
         ctx.lineTo(e.offsetX, e.offsetY); // creating line according to the mouse
         ctx.stroke(); // drawing/filling line with colour
     }else if(selectedTool === "rectangle"){
@@ -82,10 +90,30 @@ toolButtons.forEach(button => {
         selectedTool = button.id;
         console.log(button.id);
     })
-})
+});
 
 sizeSlider.addEventListener("change", () => brushWidth = sizeSlider.value);
 
+colorButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        document.querySelector(".options .selected").classList.remove("selected");
+        button.classList.add("selected");
+        selectedColor = window.getComputedStyle(button).getPropertyValue("background-color");
+    });
+
+});
+
+colorPicker.addEventListener("change", () => {
+    colorPicker.parentElement.style.background = colorPicker.value;
+    //colorPicker.parentElement.click();
+    selectedColor = colorPicker.value;
+    //colorPicker.select();
+});
+
+
+clearCanvas.addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+});
 //const clearCanvasButton = document.getElementsByClassName("clear-canvas");
 //clearCanvasButton.addEventListener("click", pressClearCanvas);
 
