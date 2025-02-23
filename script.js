@@ -5,6 +5,7 @@ const sizeSlider = document.querySelector("#size-slider");
 const colorButtons = document.querySelectorAll(".colors .option");
 const colorPicker = document.querySelector("#colour-picker");
 const clearCanvas = document.querySelector(".clear-canvas");
+const saveImage = document.querySelector(".save-img");
 const ctx = canvas.getContext("2d");
 
 
@@ -14,9 +15,16 @@ let selectedTool = "brush";
 let brushWidth = 5;
 let selectedColor = "#000";
 
+const setCanvasBackground = () => {
+    ctx.fillStyle = "#EDE8DC";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = selectedColor;
+}
+
 window.addEventListener("load", () => {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+    setCanvasBackground();
 });
 
 const drawRectangle = (e) => {
@@ -45,10 +53,7 @@ const drawTriangle = (e) => {
     ctx.closePath();
     fillColor.checked ? ctx.fill() : ctx.stroke();
 
-    if (!fillColor.checked){
-       return ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
-    }
-    ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+
 }
 
 
@@ -86,10 +91,6 @@ const drawing = (e) => {
         drawCircle(e);
     }else if(selectedTool === "triangle"){
         drawTriangle(e);
-    }else if(selectedTool === "circle"){
-        drawCircle(e);
-    }else if(selectedTool === "triangle"){
-        drawTriangle(e);
     }
 }
 
@@ -122,7 +123,15 @@ colorPicker.addEventListener("change", () => {
 
 
 clearCanvas.addEventListener("click", () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    setCanvasBackground();
+});
+
+saveImage.addEventListener("click", () => {
+    const link = document.createElement("a"); // create <a> anchor element, "link"
+    link.download =  `${Date.now()}.jpg`;
+    link.href = canvas.toDataURL();
+    link.click();
 });
 //const clearCanvasButton = document.getElementsByClassName("clear-canvas");
 //clearCanvasButton.addEventListener("click", pressClearCanvas);
