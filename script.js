@@ -44,7 +44,13 @@ const drawTriangle = (e) => {
     //ctx.lineTo(prevMouseX, prevMouseY);
     ctx.closePath();
     fillColor.checked ? ctx.fill() : ctx.stroke();
+
+    if (!fillColor.checked){
+       return ctx.strokeRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
+    }
+    ctx.fillRect(e.offsetX, e.offsetY, prevMouseX - e.offsetX, prevMouseY - e.offsetY);
 }
+
 
 const startDraw = (e) => {
     isDrawing = true;
@@ -76,6 +82,10 @@ const drawing = (e) => {
         ctx.stroke(); // drawing/filling line with colour
     }else if(selectedTool === "rectangle"){
         drawRectangle(e);
+    }else if(selectedTool === "circle"){
+        drawCircle(e);
+    }else if(selectedTool === "triangle"){
+        drawTriangle(e);
     }else if(selectedTool === "circle"){
         drawCircle(e);
     }else if(selectedTool === "triangle"){
